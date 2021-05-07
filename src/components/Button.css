@@ -16,7 +16,7 @@
     background-color: #ccc;
 }
 
-.buttondouble {
+.button.double {
     grid-column: span 2;
 }
 
