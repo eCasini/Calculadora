@@ -28,7 +28,27 @@ export default class Calculator extends Component {
     }
 
     setOperation(operation) {
-        console.log(operation)
+        if (this.state.current === 0) {
+            this.setState({ operation, current: 1, clearDisplay: true})
+        } else {
+            const equals = operation === '='
+            const currentOperation = this.state.operation
+
+            const  values = [ ...this.state.values ]
+            try {
+                values[0] = parseFloat(eval(`${values[0]} ${currentOperation} ${values[1]}`))
+            } catch(e) {
+                values[0] = this.state.values[0]
+            }
+            values[1] = 0
+
+            this.setState( {
+                displayValue: Math.round((values[0] + Number.EPSILON) * 100) / 100,
+                operation: equals ? null : operation,
+                clearDisplay: !equals,
+                values
+            })
+        }
     }
 
     addDigit(n) {
